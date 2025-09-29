@@ -26,9 +26,9 @@ class FeedbackIn(BaseModel):
 
 # Charger le modèle "Production" depuis le MLflow Model Registry (ou chemin local)
 
-MODEL_PATH = "exp_models/Best_BiLSTM_model"
-model = tf.keras.models.load_model(MODEL_PATH)
-tokenizer = joblib.load("exp_models/bilstm_tokenizer.pkl")
+# MODEL_PATH = "exp_models/Best_BiLSTM_model"
+# model = tf.keras.models.load_model(MODEL_PATH)
+# tokenizer = joblib.load("exp_models/bilstm_tokenizer.pkl")
 
 
 
@@ -40,28 +40,28 @@ def predict(inp: TweetIn):
     # Prétraitement du texte d'entrée
     print("Text input raw :")
     print(inp.text)
-    text_df = pd.Series(data=[inp.text], name='text')
-    print(text_df)
-    text_clean = preprocess_data_embedding(X_raw=text_df, 
-                                                        stem_lem_func=None,
-                                                        tokenizer=tokenizer, 
-                                                        stop_words=None, 
-                                                        min_count=1, # mincount = 1 car on est sur le jeu de validation
-                                                        max_len = 50, 
-                                                        num_words=30000)
+    # text_df = pd.Series(data=[inp.text], name='text')
+    # print(text_df)
+    # text_clean = preprocess_data_embedding(X_raw=text_df, 
+    #                                                     stem_lem_func=None,
+    #                                                     tokenizer=tokenizer, 
+    #                                                     stop_words=None, 
+    #                                                     min_count=1, # mincount = 1 car on est sur le jeu de validation
+    #                                                     max_len = 50, 
+    #                                                     num_words=30000)
     # text = preprocess_text_simple(
     #     text=inp.text, 
     #     tokenizer=TweetTokenizer().tokenize,
     #     stem_lem_func=WordNetLemmatizer().lemmatize
     #     )
     
-    print("Texte prétraité :", text_clean)
+    # print("Texte prétraité :", text_clean)
 
 
-    proba = float(model.predict(text_clean)[0][0])  
-    print(f"¨Probablilité calculées {round(proba,5)}")
+    # proba = float(model.predict(text_clean)[0][0])  
+    # print(f"¨Probablilité calculées {round(proba,5)}")
 
-    return PredOut(positive_proba=proba, positive=proba>=0.5)
+    return PredOut(positive_proba=0.5, positive=True)
 
 
 @app.post("/feedback")
